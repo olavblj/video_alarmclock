@@ -6,6 +6,8 @@ def set_alarm(alarm_time):
     ctime = time.strftime("%H:%M")
     print(ctime)
 
+    os.system("vcgencmd display_power 0")
+
     while ctime != alarm_time:
         ctime = time.strftime("%H:%M")
         print("{} - {}".format(ctime, alarm_time))
@@ -16,6 +18,9 @@ def set_alarm(alarm_time):
 
 
 def run_alarm():
+    os.system("vcgencmd display_power 1")
+    time.sleep(5)
+
     all_episodes = os.listdir("episodes")
 
     chosen_episode = choice(all_episodes)
