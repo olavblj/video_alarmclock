@@ -61,6 +61,18 @@ class NumberDisplay:
         GPIO.setup(self.pin_map[self.dot], GPIO.OUT)
         GPIO.output(self.pin_map[self.dot], 0)
 
+    def set_digit(self, digit_index, digit_value):
+        for i, digit in enumerate(self.digits):
+            if i == digit_index:
+                GPIO.output(self.pin_map[digit], 1)
+            else:
+                GPIO.output(self.pin_map[digit], 0)
+
+        time.sleep(0.001)
+        for i, segment in enumerate(self.segments):
+            GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
+        time.sleep(0.001)
+
     def set_time_of_day(self, time_of_day="9:30"):
         if ":" in time_of_day and (4 <= len(time_of_day) <= 5):
 
@@ -71,14 +83,35 @@ class NumberDisplay:
                     time_of_day = "0" + time_of_day
 
                 for i, digit_val in enumerate(time_of_day):
-                    for j, segment in enumerate(self.segments):
-                        GPIO.output(self.pin_map[segment], self.num_map[digit_val][j])
-                    GPIO.output(self.pin_map[self.digits[i]], 0)
-                    time.sleep(0.001)
-                    GPIO.output(self.pin_map[self.digits[i]], 1)
+                    self.set_digit(i, digit_val)
+
 
         else:
             print("Invalid time_of_day input: {}".format(time_of_day))
+
+    def seg(self, time_of_day):
+        for digit in range(4):
+            GPIO.output(self.segments, (self.num_map[time_of_day[digit]]))
+            GPIO.output(self.digits[digit], 0)
+            time.sleep(0.001)
+            GPIO.output(self.digits[digit], 1)
+
+        try:
+            n = 9999
+            while n >= 0:
+                display_string = str(n).rjust(4)
+                if n == 0:
+                    display_string = ' byE'
+                seg()
+                n -= 1
+            n = 1000
+            while n >= 0:
+                if n <= 500:
+                    display_string = 'ALEX'
+                seg()
+                n -= 1
+        finally:
+            GPIO.cleanup()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         GPIO.cleanup()
