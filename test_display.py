@@ -40,16 +40,16 @@ class NumberDisplay:
 
     def __init__(self):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setwarning(False)
+        GPIO.setwarnings(False)
         GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         for segment in self.segments:
-            GPIO.setup(segment, GPIO.OUT)
-            GPIO.output(segment, 0)
+            GPIO.setup(self.pin_map[segment], GPIO.OUT)
+            GPIO.output(self.pin_map[segment], 0)
 
         for digit in self.digits:
-            GPIO.setup(digit, GPIO.OUT)
-            GPIO.output(digit, 1)
+            GPIO.setup(self.pin_map[digit], GPIO.OUT)
+            GPIO.output(self.pin_map[digit], 1)
 
     def set_digit(self, digit_index, digit_value):
         for i, segment in enumerate(self.segments):
