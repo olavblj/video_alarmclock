@@ -82,14 +82,10 @@ class NumberDisplay:
             s = str(n).rjust(4)
             for digit in range(4):
                 for loop in range(0, 7):
-                    GPIO.output(self.segments[loop], self.num_map[s[digit]][loop])
-                    if (int(time.ctime()[18:19]) % 2 == 0) and (digit == 1):
-                        GPIO.output(25, 1)
-                    else:
-                        GPIO.output(25, 0)
-                GPIO.output(self.digits[digit], 0)
+                    GPIO.output(self.pin_map[self.segments[loop]], self.num_map[s[digit]][loop])
+                GPIO.output(self.pin_map[self.digits[digit]], 0)
                 time.sleep(0.001)
-                GPIO.output(self.digits[digit], 1)
+                GPIO.output(self.pin_map[self.digits[digit]], 1)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         GPIO.cleanup()
