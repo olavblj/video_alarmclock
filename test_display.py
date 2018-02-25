@@ -52,10 +52,8 @@ class NumberDisplay:
             GPIO.output(digit, 1)
 
     def set_digit(self, digit_index, digit_value):
-        try:
-            for i, segment in enumerate(self.segments):
-                GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
-        except KeyboardInterrupt:
+        for i, segment in enumerate(self.segments):
+            GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
 
     def set_time_of_day(self, time_of_day="9:30"):
         if ":" in time_of_day and len(time_of_day) == any([3, 4]):
