@@ -7,10 +7,10 @@ class NumberDisplay:
     pin_map = {
         1: 18,
         2: 23,
-        3: 4,
-        4: 17,
-        5: 27,
-        6: 22,
+        3: 24,
+        4: 25,
+        5: 8,
+        6: 7,
         7: 26,
         8: 19,
         9: 13,
@@ -39,7 +39,7 @@ class NumberDisplay:
     dot = 3
 
     def __init__(self):
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
