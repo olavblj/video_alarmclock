@@ -5,8 +5,8 @@ import time
 class NumberDisplay:
     # @formatter:off
     pin_map = {
-        1: 2,
-        2: 3,
+        1: 18,
+        2: 23,
         3: 4,
         4: 17,
         5: 27,
