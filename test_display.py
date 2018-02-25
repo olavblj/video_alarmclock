@@ -40,7 +40,7 @@ class NumberDisplay:
     dot = 3
 
     def __init__(self):
-        self.num_map = {key: [1 if segment in value else 0 for segment in self.segments] for (key, value) in
+        self.num_map = {key: [0 if segment in value else 1 for segment in self.segments] for (key, value) in
                         self.digit_map.items()}
 
         GPIO.setmode(GPIO.BCM)
@@ -69,16 +69,17 @@ class NumberDisplay:
             GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
 
     def set_time_of_day(self, time_of_day="9:30"):
-        if ":" in time_of_day and (4 <= len(time_of_day) <= 5):
-            time_of_day = time_of_day.replace(":", "")
-            if len(time_of_day) == 3:
-                time_of_day = "0" + time_of_day
+        while True:
+            if ":" in time_of_day and (4 <= len(time_of_day) <= 5):
+                time_of_day = time_of_day.replace(":", "")
+                if len(time_of_day) == 3:
+                    time_of_day = "0" + time_of_day
 
-            for i, digit_val in enumerate(time_of_day):
-                self.set_digit(i, digit_val)
+                for i, digit_val in enumerate(time_of_day):
+                    self.set_digit(i, digit_val)
 
-        else:
-            print("Invalid time_of_day input: {}".format(time_of_day))
+            else:
+                print("Invalid time_of_day input: {}".format(time_of_day))
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         GPIO.cleanup()
