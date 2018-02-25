@@ -74,9 +74,9 @@ class NumberDisplay:
                     for i, segment in enumerate(self.segments):
                         GPIO.output(self.pin_map[segment], self.num_map[digit_val][i])
 
-                    GPIO.output(self.pin_map[self.digits[digit_val]], 0)
+                    GPIO.output(self.pin_map[self.digits[i]], 0)
                     time.sleep(0.001)
-                    GPIO.output(self.pin_map[self.digits[digit_val]], 1)
+                    GPIO.output(self.pin_map[self.digits[i]], 1)
 
         else:
             print("Invalid time_of_day input: {}".format(time_of_day))
