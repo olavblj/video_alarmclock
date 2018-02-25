@@ -73,7 +73,7 @@ class NumberDisplay:
                 for i, digit_val in enumerate(time_of_day):
                     for i, segment in enumerate(self.segments):
                         GPIO.output(self.pin_map[segment], self.num_map[digit_val][i])
-
+                    print(i)
                     GPIO.output(self.pin_map[self.digits[i]], 0)
                     time.sleep(0.001)
                     GPIO.output(self.pin_map[self.digits[i]], 1)
