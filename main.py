@@ -27,7 +27,7 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv
 
-    set_alarm(argv[0])
+    set_alarm(argv[1])
 
 
 if __name__ == "__main__":
