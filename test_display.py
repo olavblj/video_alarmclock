@@ -76,17 +76,6 @@ class NumberDisplay:
         else:
             print("Invalid time_of_day input")
 
-    def set_current_time(self):
-        while True:
-            n = time.ctime()[11:13] + time.ctime()[14:16]
-            s = str(n).rjust(4)
-            for digit in range(4):
-                for loop in range(0, 7):
-                    GPIO.output(self.pin_map[self.segments[loop]], self.num_map[s[digit]][loop])
-                GPIO.output(self.pin_map[self.digits[digit]], 0)
-                time.sleep(0.001)
-                GPIO.output(self.pin_map[self.digits[digit]], 1)
-
     def __exit__(self, exc_type, exc_val, exc_tb):
         GPIO.cleanup()
 
@@ -97,7 +86,7 @@ import sys
 def setup_system(time_of_day):
     num_display = NumberDisplay()
 
-    num_display.set_current_time()
+    num_display.set_digit(0, "3")
 
 
 def main(argv=None):
