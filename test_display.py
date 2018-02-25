@@ -84,7 +84,7 @@ import sys
 def setup_system(time_of_day):
     num_display = NumberDisplay()
 
-    num_display.set_digit(0, "3")
+    num_display.set_time_of_day(time_of_day)
 
 
 def main(argv=None):
