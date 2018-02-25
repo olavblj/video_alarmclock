@@ -35,7 +35,7 @@ class NumberDisplay:
 
     def __init__(self):
         self.num_map = {key: [1 if segment in value else 0 for segment in self.segments] for (key, value) in
-                        self.digit_map}
+                        self.digit_map.items()}
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
