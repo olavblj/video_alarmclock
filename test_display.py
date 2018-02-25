@@ -75,6 +75,7 @@ class NumberDisplay:
         if ":" in time_of_day and (4 <= len(time_of_day) <= 5):
 
             while True:
+                time.sleep(0.001)
                 time_of_day = time_of_day.replace(":", "")
                 if len(time_of_day) == 3:
                     time_of_day = "0" + time_of_day
