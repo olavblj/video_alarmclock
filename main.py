@@ -20,7 +20,7 @@ def run_alarm():
 
     chosen_episode = choice(all_episodes)
 
-    os.system("omxplayer {}".format(chosen_episode))
+    os.system("omxplayer episodes/{}".format(chosen_episode))
 
 
 def main(argv=None):
