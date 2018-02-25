@@ -44,6 +44,9 @@ class NumberDisplay:
         GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         for segment in self.segments:
+            print("Segment: {}".format(segment))
+            print("Mapped segment: {}".format(self.pin_map[segment]))
+
             GPIO.setup(self.pin_map[segment], GPIO.OUT)
             GPIO.output(self.pin_map[segment], 0)
 
