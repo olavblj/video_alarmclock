@@ -19,19 +19,14 @@ class NumberDisplay:
         12: 12
     }
 
-    num_map = {
-        ' ': (0, 0, 0, 0, 0, 0, 0),
-        '0': (1, 1, 1, 1, 1, 1, 0),
-        '1': (0, 1, 1, 0, 0, 0, 0),
-        '2': (1, 1, 0, 1, 1, 0, 1),
-        '3': (1, 1, 1, 1, 0, 0, 1),
-        '4': (0, 1, 1, 0, 0, 1, 1),
-        '5': (1, 0, 1, 1, 0, 1, 1),
-        '6': (1, 0, 1, 1, 1, 1, 1),
-        '7': (1, 1, 1, 0, 0, 0, 0),
-        '8': (1, 1, 1, 1, 1, 1, 1),
-        '9': (1, 1, 1, 1, 0, 1, 1)
+    digit_map = {
+        " ": [],
+        "0": [1, 2, 4, 7, 11, 10],
+        "1": [4, 7],
+        "2": [11, 7, 5, 1, 2],
+        "3": [11, 7, 5, 4, 2]
     }
+
     # @formatter:on
 
     digits = [12, 9, 8, 6]
@@ -39,6 +34,9 @@ class NumberDisplay:
     dot = 3
 
     def __init__(self):
+        self.num_map = {key: [1 if segment in value else 0 for segment in self.segments] for (key, value) in
+                        self.digit_map}
+
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
