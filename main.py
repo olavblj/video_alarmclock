@@ -27,8 +27,8 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv
 
-    set_alarm(argv)
+    set_alarm(argv[0])
 
 
 if __name__ == "__main__":
-    main("16:09")
+    main()
