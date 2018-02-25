@@ -69,7 +69,7 @@ class NumberDisplay:
             GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
 
     def set_time_of_day(self, time_of_day="9:30"):
-        if ":" in time_of_day and len(time_of_day) == any([3, 4]):
+        if ":" in time_of_day and len(time_of_day) == any([4, 5]):
             time_of_day = time_of_day.replace(":", "")
             if len(time_of_day) == 3:
                 time_of_day = "0" + time_of_day
