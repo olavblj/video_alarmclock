@@ -78,7 +78,7 @@ class NumberDisplay:
                 self.set_digit(i, digit_val)
 
         else:
-            print("Invalid time_of_day input")
+            print("Invalid time_of_day input: {}".format(time_of_day))
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         GPIO.cleanup()
