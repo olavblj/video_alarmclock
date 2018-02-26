@@ -72,7 +72,6 @@ class NumberDisplay:
     def set_time_of_day(self, time_of_day="9:30"):
         if ":" in time_of_day and (4 <= len(time_of_day) <= 5):
             while True:
-                time.sleep(0.01)
                 time_of_day = time_of_day.replace(":", "")
                 if len(time_of_day) == 3:
                     time_of_day = "0" + time_of_day
@@ -83,30 +82,6 @@ class NumberDisplay:
 
         else:
             print("Invalid time_of_day input: {}".format(time_of_day))
-
-    def seg(self, time_of_day):
-        for digit in range(4):
-            GPIO.output(self.segments, (self.num_map[time_of_day[digit]]))
-            GPIO.output(self.digits[digit], 0)
-            time.sleep(0.001)
-            GPIO.output(self.digits[digit], 1)
-
-        try:
-            n = 9999
-            while n >= 0:
-                display_string = str(n).rjust(4)
-                if n == 0:
-                    display_string = ' byE'
-                seg()
-                n -= 1
-            n = 1000
-            while n >= 0:
-                if n <= 500:
-                    display_string = 'ALEX'
-                seg()
-                n -= 1
-        finally:
-            GPIO.cleanup()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         GPIO.cleanup()
