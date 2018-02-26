@@ -61,6 +61,7 @@ class NumberDisplay:
         GPIO.setup(self.confirm_pin, GPIO.IN)
 
     def set_digit(self, digit_index, digit_value):
+        print(digit_value)
         for i, segment in enumerate(self.segments):
             GPIO.output(segment, self.num_map[digit_value][i])
 
@@ -72,15 +73,13 @@ class NumberDisplay:
 
     def show_time(self):
         time_string = self.time_of_day.strftime('%H:%M')
-        if ":" in time_string and (4 <= len(time_string) <= 5):
-            time_string = time_string.replace(":", "")
-            if len(time_string) == 3:
-                time_string = "0" + time_string
+        time_string = time_string.replace(":", "")
+        if len(time_string) == 3:
+            time_string = "0" + time_string
 
-            for i, digit_val in enumerate(time_string):
-                self.set_digit(i, digit_val)
-        else:
-            print("Invalid time_of_day input: {}".format(time_string))
+        print(time_string)
+        for i, digit_val in enumerate(time_string):
+            self.set_digit(i, digit_val)
 
     def poll_buttons(self):
         if not GPIO.input(self.up_pin):
@@ -101,8 +100,6 @@ import sys
 
 def setup_system():
     num_display = NumberDisplay()
-
-    alarm_time = datetime.time(hour=9, minute=0)
 
     while True:
         num_display.poll_buttons()
