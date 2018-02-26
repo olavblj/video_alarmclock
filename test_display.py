@@ -65,9 +65,9 @@ class NumberDisplay:
         for i, segment in enumerate(self.segments):
             GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
 
-        GPIO.output(self.pin_map[self.digits[digit_index]], 0)
-        time.sleep(0.001)
         GPIO.output(self.pin_map[self.digits[digit_index]], 1)
+        time.sleep(0.001)
+        GPIO.output(self.pin_map[self.digits[digit_index]], 0)
 
     def set_time_of_day(self, time_of_day="9:30"):
         if ":" in time_of_day and (4 <= len(time_of_day) <= 5):
