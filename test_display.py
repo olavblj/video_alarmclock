@@ -76,7 +76,6 @@ class NumberDisplay:
         GPIO.setup(self.confirm_pin, GPIO.IN)
 
     def set_digit(self, digit_index, digit_value):
-        print(digit_value)
         for i, segment in enumerate(self.segments):
             GPIO.output(segment, self.num_map[digit_value][i])
 
@@ -92,11 +91,11 @@ class NumberDisplay:
         if len(time_string) == 3:
             time_string = "0" + time_string
 
-        print(time_string)
         for i, digit_val in enumerate(time_string):
             self.set_digit(i, digit_val)
 
     def poll_buttons(self):
+        print(self.button_pressed)
         if not self.button_pressed:
             if GPIO.input(self.up_pin):
                 self.button_pressed = False
