@@ -5,18 +5,18 @@ import time
 class NumberDisplay:
     # @formatter:off
     pin_map = {
-        1: 18,
-        2: 23,
-        3: 24,
-        4: 25,
-        5: 8,
-        6: 7,
-        7: 26,
-        8: 19,
-        9: 13,
-        10: 6,
-        11: 5,
-        12: 12
+        1: 3,
+        2: 5,
+        3: 7,
+        4: 11,
+        5: 13,
+        6: 15,
+        7: 37,
+        8: 35,
+        9: 33,
+        10: 31,
+        11: 32,
+        12: 29
     }
 
     digit_map = {
@@ -43,7 +43,7 @@ class NumberDisplay:
         self.num_map = {key: [0 if segment in value else 1 for segment in self.segments] for (key, value) in
                         self.digit_map.items()}
 
-        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BOARD)
         GPIO.setwarnings(False)
         GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
@@ -62,20 +62,15 @@ class NumberDisplay:
         GPIO.output(self.pin_map[self.dot], 0)
 
     def set_digit(self, digit_index, digit_value):
-        for i, digit in enumerate(self.digits):
-            if i == digit_index:
-                GPIO.output(self.pin_map[digit], 1)
-            else:
-                GPIO.output(self.pin_map[digit], 0)
-
-        time.sleep(0.001)
         for i, segment in enumerate(self.segments):
             GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
+
+        GPIO.output(self.pin_map[self.digits[digit_index]], 0)
         time.sleep(0.001)
+        GPIO.output(self.pin_map[self.digits[digit_index]], 1)
 
     def set_time_of_day(self, time_of_day="9:30"):
         if ":" in time_of_day and (4 <= len(time_of_day) <= 5):
-
             while True:
                 time.sleep(0.01)
                 time_of_day = time_of_day.replace(":", "")
