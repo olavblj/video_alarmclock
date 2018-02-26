@@ -52,7 +52,7 @@ class NumberDisplay:
             print("Mapped segment: {}".format(self.pin_map[segment]))
 
             GPIO.setup(self.pin_map[segment], GPIO.OUT)
-            GPIO.output(self.pin_map[segment], 0)
+            GPIO.output(self.pin_map[segment], 1)
 
         for digit in self.digits:
             GPIO.setup(self.pin_map[digit], GPIO.OUT)
@@ -64,6 +64,9 @@ class NumberDisplay:
     def set_digit(self, digit_index, digit_value):
         for i, segment in enumerate(self.segments):
             GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
+
+        if digit_index == 1:
+            GPIO.output(self.pin_map[self.dot], 0)
 
         GPIO.output(self.pin_map[self.digits[digit_index]], 1)
         time.sleep(0.001)
