@@ -2,26 +2,40 @@ import RPi.GPIO as GPIO
 import time
 import datetime
 
+# @formatter:off
+
+pin_map = {
+    1: 3,
+    2: 5,
+    3: 7,
+    4: 11,
+    5: 13,
+    6: 15,
+    7: 37,
+    8: 35,
+    9: 33,
+    10: 31,
+    11: 32,
+    12: 29
+}
+
+digit_map = {
+    " ": [],
+    "0": [1, 2, 4, 7, 11, 10],
+    "1": [4, 7],
+    "2": [11, 7, 5, 1, 2],
+    "3": [11, 7, 5, 4, 2],
+    "4": [10, 5, 7, 4],
+    "5": [11, 10, 5, 4, 2],
+    "6": [11, 10, 1, 2, 4, 5],
+    "7": [11, 7, 4],
+    "8": [11, 10, 5, 7, 1, 2, 4],
+    "9": [11, 10, 5, 7, 2, 4]
+}
+
+# @formatter:on
 
 class NumberDisplay:
-    # @formatter:off
-
-    digit_map = {
-        " ": [],
-        "0": [1, 2, 4, 7, 11, 10],
-        "1": [4, 7],
-        "2": [11, 7, 5, 1, 2],
-        "3": [11, 7, 5, 4, 2],
-        "4": [10, 5, 7, 4],
-        "5": [11, 10, 5, 4, 2],
-        "6": [11, 10, 1, 2, 4, 5],
-        "7": [11, 7, 4],
-        "8": [11, 10, 5, 7, 1, 2, 4],
-        "9": [11, 10, 5, 7, 2, 4]
-    }
-
-    # @formatter:on
-
     # <--- OUTPUT PINS --->
     digits = [29, 33, 35, 15]
     segments = [3, 5, 11, 13, 37, 31, 32]
@@ -35,8 +49,8 @@ class NumberDisplay:
     def __init__(self):
         self.time_of_day = datetime.time(hour=9, minute=0)
 
-        self.num_map = {key: [0 if segment in value else 1 for segment in self.segments] for (key, value) in
-                        self.digit_map.items()}
+        self.num_map = {key: [0 if segment in [pin_map[val] for val in value] else 1 for segment in self.segments] for
+                        (key, value) in digit_map.items()}
 
         GPIO.setmode(GPIO.BOARD)
         GPIO.setwarnings(False)
