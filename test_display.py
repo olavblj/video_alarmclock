@@ -47,8 +47,9 @@ class NumberDisplay:
     confirm_pin = 16
 
     def __init__(self):
+        self.is_confirmed = False
         self.last_button_press = time.time()
-        self.time_of_day = datetime.time(hour=9, minute=0)
+        self.display_time = datetime.time(hour=9, minute=0)
 
         self.num_map = {key: [0 if segment in [pin_map[val] for val in value] else 1 for segment in self.segments] for
                         (key, value) in digit_map.items()}
@@ -58,9 +59,6 @@ class NumberDisplay:
         GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         for segment in self.segments:
-            print("Segment: {}".format(segment))
-            print("Mapped segment: {}".format(segment))
-
             GPIO.setup(segment, GPIO.OUT)
             GPIO.output(segment, 1)
 
@@ -86,7 +84,7 @@ class NumberDisplay:
         GPIO.output(self.digits[digit_index], 0)
 
     def show_time(self):
-        time_string = self.time_of_day.strftime('%H:%M')
+        time_string = self.display_time_string()
         time_string = time_string.replace(":", "")
         if len(time_string) == 3:
             time_string = "0" + time_string
@@ -98,15 +96,30 @@ class NumberDisplay:
         if time.time() - self.last_button_press > 0.2:
             if not GPIO.input(self.up_pin):
                 self.last_button_press = time.time()
-                self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=30))
+                self.display_time = time_plus(self.display_time, datetime.timedelta(minutes=30))
 
             elif not GPIO.input(self.down_pin):
                 self.last_button_press = time.time()
-                self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=-30))
+                self.display_time = time_plus(self.display_time, datetime.timedelta(minutes=-30))
 
             elif not GPIO.input(self.confirm_pin):
                 self.last_button_press = time.time()
-                print("Confirmed!")
+                self.is_confirmed = True
+
+    def display_time_string(self):
+        return self.display_time.strftime('%H:%M')
+
+    def turn_off(self):
+        for digit in self.digits:
+            GPIO.setup(digit, GPIO.OUT)
+            GPIO.output(digit, 0)
+
+        for segment in self.segments:
+            GPIO.setup(segment, GPIO.OUT)
+            GPIO.output(segment, 1)
+
+        GPIO.setup(self.dot, GPIO.OUT)
+        GPIO.output(self.dot, 1)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         GPIO.cleanup()
