@@ -55,7 +55,7 @@ class NumberDisplay:
 
         GPIO.setup(self.dot, GPIO.OUT)
         GPIO.output(self.dot, 1)
-        
+
         GPIO.setup(self.up_pin, GPIO.IN)
         GPIO.setup(self.down_pin, GPIO.IN)
         GPIO.setup(self.confirm_pin, GPIO.IN)
@@ -84,10 +84,10 @@ class NumberDisplay:
 
     def poll_buttons(self):
         if not GPIO.input(self.up_pin):
-            self.time_of_day += datetime.timedelta(minutes=30)
+            self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=30))
 
         elif not GPIO.input(self.down_pin):
-            self.time_of_day -= datetime.timedelta(minutes=30)
+            self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=-30))
 
         elif not GPIO.input(self.confirm_pin):
             print("Confirmed!")
@@ -107,6 +107,12 @@ def setup_system():
     while True:
         num_display.poll_buttons()
         num_display.show_time()
+
+
+def time_plus(time, timedelta):
+    start = datetime.datetime(2000, 1, 1, hour=time.hour, minute=time.minute, second=time.second)
+    end = start + timedelta
+    return end.time()
 
 
 def main(argv=None):
