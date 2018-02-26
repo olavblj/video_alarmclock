@@ -96,22 +96,25 @@ class NumberDisplay:
 
     def poll_buttons(self):
         print(self.button_pressed)
-        if not self.button_pressed:
+        if self.button_pressed:
             if GPIO.input(self.up_pin):
                 self.button_pressed = False
-            else:
+
+            elif GPIO.input(self.down_pin):
+                self.button_pressed = False
+
+            elif GPIO.input(self.confirm_pin):
+                self.button_pressed = False
+        else:
+            if not GPIO.input(self.up_pin):
                 self.button_pressed = True
                 self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=30))
 
-            if GPIO.input(self.down_pin):
-                self.button_pressed = False
-            else:
+            elif not GPIO.input(self.down_pin):
                 self.button_pressed = True
                 self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=-30))
 
-            if GPIO.input(self.confirm_pin):
-                self.button_pressed = False
-            else:
+            elif not GPIO.input(self.confirm_pin):
                 self.button_pressed = True
                 print("Confirmed!")
 
