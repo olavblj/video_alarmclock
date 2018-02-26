@@ -65,9 +65,8 @@ class NumberDisplay:
         for i, segment in enumerate(self.segments):
             GPIO.output(self.pin_map[segment], self.num_map[digit_value][i])
 
-        if digit_index == 1:
-            GPIO.output(self.pin_map[self.dot], 0)
-        
+        GPIO.output(self.pin_map[self.dot], 0 if digit_index == 1 else 1)
+
         GPIO.output(self.pin_map[self.digits[digit_index]], 1)
         time.sleep(0.001)
         GPIO.output(self.pin_map[self.digits[digit_index]], 0)
