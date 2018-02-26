@@ -1,6 +1,8 @@
 import os, sys, time
 from random import choice
 
+from test_display import NumberDisplay
+
 
 def set_alarm(alarm_time):
     ctime = time.strftime("%H:%M")
@@ -32,7 +34,15 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv
 
-    set_alarm(argv[1])
+    num_display = NumberDisplay()
+
+    while not num_display.is_confirmed:
+        num_display.poll_buttons()
+        num_display.show_time()
+
+    print(num_display.display_time_string())
+
+    # set_alarm(num_display.display_time_string())
 
 
 if __name__ == "__main__":
