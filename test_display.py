@@ -95,7 +95,7 @@ class NumberDisplay:
             self.set_digit(i, digit_val)
 
     def poll_buttons(self):
-        if time.time() - self.last_button_press > 1:
+        if time.time() - self.last_button_press > 0.2:
             if not GPIO.input(self.up_pin):
                 self.last_button_press = time.time()
                 self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=30))
