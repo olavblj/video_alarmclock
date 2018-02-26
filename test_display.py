@@ -47,6 +47,7 @@ class NumberDisplay:
     confirm_pin = 16
 
     def __init__(self):
+        self.button_pressed = False
         self.time_of_day = datetime.time(hour=9, minute=0)
 
         self.num_map = {key: [0 if segment in [pin_map[val] for val in value] else 1 for segment in self.segments] for
@@ -96,14 +97,24 @@ class NumberDisplay:
             self.set_digit(i, digit_val)
 
     def poll_buttons(self):
-        if not GPIO.input(self.up_pin):
-            self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=30))
+        if not self.button_pressed:
+            if GPIO.input(self.up_pin):
+                self.button_pressed = False
+            else:
+                self.button_pressed = True
+                self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=30))
 
-        elif not GPIO.input(self.down_pin):
-            self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=-30))
+            if GPIO.input(self.down_pin):
+                self.button_pressed = False
+            else:
+                self.button_pressed = True
+                self.time_of_day = time_plus(self.time_of_day, datetime.timedelta(minutes=-30))
 
-        elif not GPIO.input(self.confirm_pin):
-            print("Confirmed!")
+            if GPIO.input(self.confirm_pin):
+                self.button_pressed = False
+            else:
+                self.button_pressed = True
+                print("Confirmed!")
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         GPIO.cleanup()
