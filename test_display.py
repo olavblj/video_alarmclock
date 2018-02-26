@@ -55,6 +55,10 @@ class NumberDisplay:
 
         GPIO.setup(self.dot, GPIO.OUT)
         GPIO.output(self.dot, 1)
+        
+        GPIO.setup(self.up_pin, GPIO.IN)
+        GPIO.setup(self.down_pin, GPIO.IN)
+        GPIO.setup(self.confirm_pin, GPIO.IN)
 
     def set_digit(self, digit_index, digit_value):
         for i, segment in enumerate(self.segments):
