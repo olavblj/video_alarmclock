@@ -2,6 +2,10 @@ import os, sys, time
 from random import choice
 
 from test_display import NumberDisplay
+from phue import Bridge
+
+b = Bridge('192.168.0.100')
+b.connect()
 
 
 def set_alarm(alarm_time):
@@ -28,12 +32,18 @@ def run_alarm():
     chosen_episode = choice(all_episodes)
 
     os.system("omxplayer episodes/{}".format(chosen_episode))
+    time.sleep(600)
+
+    lights = b.lights
+    command = {'transitiontime': 3000, 'on': True, 'bri': 254}
+
+    for light in lights:
+        b.set_light(light.light_id, command)
+
+    main()
 
 
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-
+def main():
     num_display = NumberDisplay()
 
     while not num_display.is_confirmed:
@@ -42,7 +52,7 @@ def main(argv=None):
 
     print(num_display.display_time_string())
 
-    # set_alarm(num_display.display_time_string())
+    set_alarm(num_display.display_time_string())
 
 
 if __name__ == "__main__":
