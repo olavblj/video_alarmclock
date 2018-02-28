@@ -1,4 +1,7 @@
 from phue import Bridge
+import logging
+
+logging.basicConfig()
 
 b = Bridge('192.168.0.100')
 b.connect()
