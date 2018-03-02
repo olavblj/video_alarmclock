@@ -3,6 +3,7 @@ import time
 import datetime
 
 # @formatter:off
+from utils import config
 
 pin_map = {
     1: 3,
@@ -50,7 +51,7 @@ class NumberDisplay:
     def __init__(self):
         self.is_confirmed = False
         self.last_button_press = time.time()
-        self.display_time = datetime.time(hour=14, minute=40)
+        self.display_time = config.set_alarm_default
 
         self.num_map = {key: [0 if segment in [pin_map[val] for val in value] else 1 for segment in self.segments] for
                         (key, value) in digit_map.items()}
