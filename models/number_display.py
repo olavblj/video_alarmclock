@@ -35,6 +35,7 @@ digit_map = {
 
 # @formatter:on
 
+
 class NumberDisplay:
     # <--- OUTPUT PINS --->
     digits = [29, 33, 35, 15]
@@ -92,6 +93,17 @@ class NumberDisplay:
         for i, digit_val in enumerate(time_string):
             self.set_digit(i, digit_val)
 
+    def __iadd__(self, other):
+        self.display_time = time_plus(self.display_time, datetime.timedelta(minutes=other))
+        return self
+
+    def __isub__(self, other):
+        self.display_time = time_plus(self.display_time, datetime.timedelta(minutes=-other))
+        return self
+
+    def __str__(self):
+        return self.display_time.strftime('%H:%M')
+
     def poll_buttons(self):
         if time.time() - self.last_button_press > 0.2:
             if not GPIO.input(self.up_pin):
@@ -122,32 +134,11 @@ class NumberDisplay:
         GPIO.output(self.dot, 1)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        self.turn_off()
         GPIO.cleanup()
-
-
-import sys
-
-
-def setup_system():
-    num_display = NumberDisplay()
-
-    while True:
-        num_display.poll_buttons()
-        num_display.show_time()
 
 
 def time_plus(time, timedelta):
     start = datetime.datetime(2000, 1, 1, hour=time.hour, minute=time.minute, second=time.second)
     end = start + timedelta
     return end.time()
-
-
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-
-    setup_system()
-
-
-if __name__ == "__main__":
-    main()
