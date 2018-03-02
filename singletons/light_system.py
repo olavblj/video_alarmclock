@@ -8,6 +8,7 @@ class LightSystem:
             self.bridge.connect()
 
         def toggle(self):
+            print("[LightSystem] {}".format(self.is_on()))
             if self.is_on() is None or self.is_on():
                 self.on()
             else:
@@ -29,6 +30,7 @@ class LightSystem:
 
         def is_on(self):
             on_statuses = [light.on for light in self.bridge.lights]
+            print("[LightSystem] on_statuses: {}".format(on_statuses))
             if all(on_statuses):
                 return True
             elif not any(on_statuses):
