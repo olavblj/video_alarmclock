@@ -8,13 +8,16 @@ class LightSystem:
             self.bridge.connect()
 
         def toggle(self):
-            print("[LightSystem] {}".format(self.is_on()))
-            if self.is_on() is None or self.is_on():
+            on_status = self.is_on()
+            print("[LightSystem] {}".format(on_status))
+            if on_status is None or on_status:
                 self.on()
             else:
                 self.off()
 
         def on(self, transition_time=1):
+            print("[LightSystem] Running on")
+
             lights = self.bridge.lights
             command = {'transitiontime': 10 * transition_time, 'on': True, 'bri': 254}
 
@@ -22,6 +25,8 @@ class LightSystem:
                 self.bridge.set_light(light.light_id, command)
 
         def off(self, transition_time=1):
+            print("[LightSystem] Running off")
+
             lights = self.bridge.lights
             command = {'transitiontime': 10 * transition_time, 'on': False, 'bri': 254}
 
