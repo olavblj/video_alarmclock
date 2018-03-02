@@ -47,7 +47,7 @@ while True:
             num_display -= 30
         elif pressed_button == "confirm":
             system_state = ss.WAITING_ALARM
-            alarm = Alarm(num_display.display_time, hue_bridge=b)
+            alarm = Alarm(str(num_display), hue_bridge=b)
             alarm.start()
             num_display.turn_off()
 

@@ -15,8 +15,6 @@ class Alarm(threading.Thread):
 
     def run(self):
         ctime = time.strftime("%H:%M")
-        print(ctime)
-
         while ctime != self.alarm_time:
             ctime = time.strftime("%H:%M")
             print("[Alarm] {} - {}".format(ctime, self.alarm_time))

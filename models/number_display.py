@@ -118,9 +118,6 @@ class NumberDisplay:
                 self.last_button_press = time.time()
                 self.is_confirmed = True
 
-    def display_time_string(self):
-        return self.display_time.strftime('%H:%M')
-
     def turn_off(self):
         for digit in self.digits:
             GPIO.setup(digit, GPIO.OUT)
