@@ -23,6 +23,8 @@ up_button = Button(18, "up")
 down_button = Button(12, "down")
 button_system = ButtonSystem([confirm_button, up_button, down_button])
 
+os.system("vcgencmd display_power 1")
+
 while True:
     pressed_button = button_system.poll()
 
@@ -45,6 +47,7 @@ while True:
     elif system_state == ss.WAITING_ALARM:
         if pressed_button == "confirm":
             system_state = ss.SETTING_ALARM
+            time.sleep(1)
 
         if alarm.has_run:
             system_state = ss.RUNNING_ALARM
