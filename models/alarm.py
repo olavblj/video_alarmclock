@@ -3,10 +3,7 @@ import random
 import threading
 import time
 
-from models.monitor import Monitor
 from models.video_player import VideoPlayer
-
-monitor = Monitor()
 
 
 class Alarm(threading.Thread):
@@ -30,7 +27,6 @@ class Alarm(threading.Thread):
 
     def alarm_ring(self):
         self.has_run = True
-        monitor.on()
         time.sleep(5)
 
         all_episodes = os.listdir("episodes")
@@ -47,6 +43,3 @@ class Alarm(threading.Thread):
 
             for light in lights:
                 self.hue_bridge.set_light(light.light_id, command)
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        monitor.on()
