@@ -10,7 +10,7 @@ class LightSystem:
         def toggle(self):
             on_status = self.is_on()
             print("[LightSystem] {}".format(on_status))
-            if on_status is None or on_status:
+            if on_status is None or not on_status:
                 self.on()
             else:
                 self.off()
