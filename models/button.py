@@ -7,6 +7,7 @@ class Button:
         self.pin_number = pin_number
         self.last_press = time.time()
         self.cooldown = cooldown
+        self.name = name
 
         GPIO.setup(self.pin_number, GPIO.IN)
 
