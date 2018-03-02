@@ -16,7 +16,6 @@ b.connect()
 system_state = ss.IDLE
 
 alarm = None
-
 num_display = NumberDisplay()
 
 confirm_button = Button(16, "confirm")
@@ -52,4 +51,4 @@ while True:
     elif system_state == ss.RUNNING_ALARM:
         pass
     else:
-        print("❌ State not handled")
+        print("State not handled")
