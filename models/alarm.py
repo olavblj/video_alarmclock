@@ -2,6 +2,7 @@ import os
 import random
 import threading
 import time
+from utils.globals import *
 
 from models.video_player import VideoPlayer
 
@@ -17,7 +18,7 @@ class Alarm(threading.Thread):
         ctime = time.strftime("%H:%M")
         print(ctime)
 
-        os.system("vcgencmd display_power 0")
+        monitor.off()
 
         while ctime != self.alarm_time:
             ctime = time.strftime("%H:%M")
@@ -29,7 +30,7 @@ class Alarm(threading.Thread):
 
     def alarm_ring(self):
         self.has_run = True
-        os.system("vcgencmd display_power 1")
+        monitor.on()
         time.sleep(5)
 
         all_episodes = os.listdir("episodes")
@@ -48,4 +49,4 @@ class Alarm(threading.Thread):
                 self.hue_bridge.set_light(light.light_id, command)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        os.system("vcgencmd display_power 1")
+        monitor.on()

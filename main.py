@@ -9,6 +9,7 @@ from models.button import Button
 from models.button_system import ButtonSystem
 from models.number_display import NumberDisplay
 from models.system_state import SystemState as ss
+from utils.globals import *
 
 b = Bridge('192.168.0.100')
 b.connect()
@@ -18,12 +19,12 @@ system_state = ss.IDLE
 alarm = None
 num_display = NumberDisplay()
 
-confirm_button = Button(16, "confirm")
+confirm_button = Button(16, "confirm", cooldown=1)
 up_button = Button(18, "up")
 down_button = Button(12, "down")
 button_system = ButtonSystem([confirm_button, up_button, down_button])
 
-os.system("vcgencmd display_power 1")
+monitor.on()
 
 while True:
     pressed_button = button_system.poll()
@@ -47,8 +48,6 @@ while True:
     elif system_state == ss.WAITING_ALARM:
         if pressed_button == "confirm":
             system_state = ss.SETTING_ALARM
-            time.sleep(1)
-
         if alarm.has_run:
             system_state = ss.RUNNING_ALARM
     elif system_state == ss.RUNNING_ALARM:
