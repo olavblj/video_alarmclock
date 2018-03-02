@@ -85,7 +85,7 @@ class NumberDisplay:
         GPIO.output(self.digits[digit_index], 0)
 
     def show_time(self):
-        time_string = self.display_time_string()
+        time_string = str(self)
         time_string = time_string.replace(":", "")
         if len(time_string) == 3:
             time_string = "0" + time_string
