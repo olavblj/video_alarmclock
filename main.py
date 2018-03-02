@@ -27,7 +27,7 @@ confirm_button = Button(16, "confirm", cooldown=1)
 up_button = Button(18, "up")
 down_button = Button(12, "down")
 
-light_button = Button(22, "light", cooldown=2)
+light_button = Button(22, "light", cooldown=1)
 
 button_system = ButtonSystem([confirm_button, up_button, down_button, light_button])
 
