@@ -2,8 +2,25 @@ import os
 
 
 class Monitor:
-    def on(self):
-        os.system("vcgencmd display_power 1")
+    class __Monitor:
+        def __init__(self, is_on=None):
+            self.is_on = is_on
 
-    def off(self):
-        os.system("vcgencmd display_power 0")
+        def on(self):
+            if self.is_on is not True:
+                self.is_on = True
+                os.system("vcgencmd display_power 1")
+
+        def off(self):
+            if self.is_on is not False:
+                self.is_on = False
+                os.system("vcgencmd display_power 0")
+
+    instance = None
+
+    def __init__(self):
+        if not Monitor.instance:
+            Monitor.instance = Monitor.__Monitor()
+
+    def __getattr__(self, name):
+        return getattr(self.instance, name)

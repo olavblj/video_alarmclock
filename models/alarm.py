@@ -2,9 +2,11 @@ import os
 import random
 import threading
 import time
-from utils.globals import *
 
+from models.monitor import Monitor
 from models.video_player import VideoPlayer
+
+monitor = Monitor()
 
 
 class Alarm(threading.Thread):
@@ -17,8 +19,6 @@ class Alarm(threading.Thread):
     def run(self):
         ctime = time.strftime("%H:%M")
         print(ctime)
-
-        monitor.off()
 
         while ctime != self.alarm_time:
             ctime = time.strftime("%H:%M")
