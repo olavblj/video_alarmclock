@@ -1,4 +1,4 @@
-from models.monitor import Monitor
+from singletons.monitor import Monitor
 
 
 class SystemManager:

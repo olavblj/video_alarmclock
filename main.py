@@ -1,22 +1,22 @@
-import os
 import time
-from random import choice
 
+import RPi.GPIO as GPIO
 from phue import Bridge
 
-from models.monitor import Monitor
 from models.alarm import Alarm
 from models.button import Button
 from models.button_system import ButtonSystem
 from models.number_display import NumberDisplay
 from models.system_state import SystemState as ss
-from system_manager import SystemManager
+from singletons.monitor import Monitor
+from singletons.light_system import LightSystem
 from utils import config
 
-monitor = Monitor()
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
 
-b = Bridge('192.168.0.100')
-b.connect()
+monitor = Monitor()
+light_sys = LightSystem()
 
 system_state = ss.IDLE
 
@@ -26,13 +26,20 @@ num_display = NumberDisplay()
 confirm_button = Button(16, "confirm", cooldown=1)
 up_button = Button(18, "up")
 down_button = Button(12, "down")
-button_system = ButtonSystem([confirm_button, up_button, down_button])
+
+light_button = Button(22, "light")
+
+button_system = ButtonSystem([confirm_button, up_button, down_button, light_button])
 
 monitor.on()
 
 try:
     while True:
         pressed_button = button_system.poll()
+
+        # <--- STATE INDEPENDENT --->
+        if pressed_button == "light":
+            light_sys.toggle()
 
         # <--- IDLE --->
         if system_state == ss.IDLE:
@@ -50,7 +57,7 @@ try:
                 num_display -= config.set_alarm_incr
             elif pressed_button == "confirm":
                 system_state = ss.WAITING_ALARM
-                alarm = Alarm(str(num_display), hue_bridge=b)
+                alarm = Alarm(str(num_display))
                 alarm.start()
                 num_display.turn_off()
 

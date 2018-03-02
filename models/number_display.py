@@ -56,8 +56,6 @@ class NumberDisplay:
         self.num_map = {key: [0 if segment in [pin_map[val] for val in value] else 1 for segment in self.segments] for
                         (key, value) in digit_map.items()}
 
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setwarnings(False)
         GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         for segment in self.segments:
@@ -104,20 +102,6 @@ class NumberDisplay:
 
     def __str__(self):
         return self.display_time.strftime('%H:%M')
-
-    def poll_buttons(self):
-        if time.time() - self.last_button_press > 0.2:
-            if not GPIO.input(self.up_pin):
-                self.last_button_press = time.time()
-                self.display_time = time_plus(self.display_time, datetime.timedelta(minutes=30))
-
-            elif not GPIO.input(self.down_pin):
-                self.last_button_press = time.time()
-                self.display_time = time_plus(self.display_time, datetime.timedelta(minutes=-30))
-
-            elif not GPIO.input(self.confirm_pin):
-                self.last_button_press = time.time()
-                self.is_confirmed = True
 
     def turn_off(self):
         for digit in self.digits:
