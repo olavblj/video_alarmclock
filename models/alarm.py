@@ -46,3 +46,6 @@ class Alarm(threading.Thread):
 
             for light in lights:
                 self.hue_bridge.set_light(light.light_id, command)
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        os.system("vcgencmd display_power 1")
