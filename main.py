@@ -42,9 +42,9 @@ while True:
         monitor.on()
 
         if pressed_button == "up":
-            num_display += 30
+            num_display += 1
         elif pressed_button == "down":
-            num_display -= 30
+            num_display -= 1
         elif pressed_button == "confirm":
             system_state = ss.WAITING_ALARM
             alarm = Alarm(str(num_display), hue_bridge=b)

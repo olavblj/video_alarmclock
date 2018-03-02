@@ -50,7 +50,7 @@ class NumberDisplay:
     def __init__(self):
         self.is_confirmed = False
         self.last_button_press = time.time()
-        self.display_time = datetime.time(hour=9, minute=0)
+        self.display_time = datetime.time(hour=14, minute=40)
 
         self.num_map = {key: [0 if segment in [pin_map[val] for val in value] else 1 for segment in self.segments] for
                         (key, value) in digit_map.items()}
